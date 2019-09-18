@@ -1,0 +1,35 @@
+;; api-lacinia-pedestal-component deps.edn
+;;  dependency details for api-lacinia-pedestal-component
+;;   NOTE: :deps are REPLICATED from project.clj (Leiningen deps list)
+
+
+{:paths ["src" "resources" "config"]
+ :deps {org.clojure/clojure                    {:mvn/version "1.10.1"}
+        org.clojure/core.async                 {:mvn/version "0.4.500"}
+        io.pedestal/pedestal.service           {:mvn/version "0.5.7"
+                                                :exclusions  [com.cognitect/transit-clj
+                                                              org.clojure/tools.analyzer.jvm
+                                                              org.clojure/core.async]}
+        
+        io.pedestal/pedestal.log               {:mvn/version "0.5.7"}
+        
+        com.stuartsierra/component             {:mvn/version "0.4.0"}
+
+        com.walmartlabs/lacinia-pedestal       {:mvn/version "0.12.0"}}
+ :aliases
+ {:log   {:extra-deps {ch.qos.logback/logback-classic         {:mvn/version "1.2.3"
+                                                               :exclusions  [org.slf4j/slf4j-api]}
+                       org.slf4j/slf4j-api                    {:mvn/version "1.7.14"}
+                       org.slf4j/jul-to-slf4j                 {:mvn/version "1.7.14"}
+                       org.slf4j/jcl-over-slf4j               {:mvn/version "1.7.14"}
+                       org.slf4j/log4j-over-slf4j             {:mvn/version "1.7.14"}}}
+  :jetty {:extra-deps  {io.pedestal/pedestal.jetty            {:mvn/version "0.5.5"}}}
+  :dev   {:extra-paths ["dev" "dev-resources"]
+          :extra-deps {io.pedestal/pedestal.service-tools     {:mvn/version "0.5.7"
+                                                               :exclusions  [ch.qos.logback/logback-classic
+                                                                             org.slf4j/jul-to-slf4j
+                                                                             org.slf4j/jcl-over-slf4j
+                                                                             org.slf4j/log4j-over-slf4j]}
+                       clj-http                               {:mvn/version "3.10.0"}}}
+  :cider-clj {:extra-deps {cider/cider-nrepl                  {:mvn/version "0.22.1"}}
+              :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}}}
