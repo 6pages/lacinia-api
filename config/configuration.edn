@@ -1,0 +1,17 @@
+{
+ :env :dev
+
+ :lacinia-pedestal-service {:graphiql true}
+
+ :io-pedestal-http {:env :dev
+                    :io.pedestal.http/join? false
+                    :io.pedestal.http/port 8888
+                    :io.pedestal.http/allowed-origins
+                    {:allowed-origins ["http://localhost:8000"]
+                     :creds true
+                     :max-age 9999999999
+                     :methods "GET, POST, OPTIONS"}}
+
+ :endpoint {:protocol "http"
+            :host "localhost"
+            :port 8888}}
