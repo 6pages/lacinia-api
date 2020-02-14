@@ -81,8 +81,8 @@ resource "aws_lambda_function" "fn" {
   role             = aws_iam_role.role.arn
   
   runtime          = "java11"
-  timeout          = 300
-  memory_size      = 1024
+  timeout          = var.timeout
+  memory_size      = var.memory_size
 
   handler          = "com.sixpages.lacinia-api.handler"
   description      = var.description

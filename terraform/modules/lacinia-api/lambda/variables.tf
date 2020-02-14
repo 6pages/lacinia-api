@@ -18,6 +18,16 @@ variable "deployment_description" {
   default = "first deployment."
 }
 
+variable "timeout" {
+  type    = number
+  default = 300
+}
+
+variable "memory_size" {
+  type    = number
+  default = 1024
+}
+
 variable "source_path" {
   # NOTE: relative to state/main.tf (not this file)
   default = "../../.."
