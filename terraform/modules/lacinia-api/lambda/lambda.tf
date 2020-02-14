@@ -77,14 +77,17 @@ data "aws_region" "current" {}
 
 
 resource "aws_lambda_function" "fn" {
-  function_name = var.name
-  handler = "com.sixpages.lacinia-api.handler"
-  runtime = "java11"
-  timeout = 300
-  role = aws_iam_role.role.arn
-  description = var.description
+  function_name    = var.name
+  role             = aws_iam_role.role.arn
+  
+  runtime          = "java11"
+  timeout          = 300
+  memory_size      = 1024
 
-  filename = local.target
+  handler          = "com.sixpages.lacinia-api.handler"
+  description      = var.description
+
+  filename         = local.target
   source_code_hash = filebase64sha256(local.target)
 
   environment {
