@@ -1,6 +1,6 @@
 (defproject api-lacinia-pedestal-component "0.0.1-SNAPSHOT"
   :description "Lacinia Pedestal Component API"
-  :url "http://github.com/adamtait/6pages.com"
+  :url "http://github.com/adamtait/lacinia-pedestal-component"
 
   :min-lein-version "2.0.0"
 
@@ -13,14 +13,15 @@
                                 org.clojure/core.async]]
 
                  ;; lacinia (graphql)
-                 [org.antlr/antlr4 "4.7.2"]
-                 [org.antlr/antlr4-runtime "4.7.2"]
-                 [clj-antlr "0.2.5"
+                 #_[org.antlr/antlr4 "4.7.2"]
+                 #_[org.antlr/antlr4-runtime "4.7.2"]
+                 #_[clj-antlr "0.2.5"
                   :exclusions [org.antlr/antlr4
                                org.antlr/antlr4-runtime]]
-                 [com.walmartlabs/lacinia "0.35.0"
-                  :exclusions [clj-antlr]]
-                 [com.walmartlabs/lacinia-pedestal "0.12.0"
+                 [com.walmartlabs/lacinia "0.36.0"
+                  ;;:exclusions [clj-antlr]
+                  ]
+                 [com.walmartlabs/lacinia-pedestal "0.13.0"
                   :exclusions [io.pedestal/pedestal.service
                                io.pedestal/pedestal.jetty
                                com.walmartlabs/lacinia]]
