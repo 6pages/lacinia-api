@@ -24,3 +24,13 @@
      response
      w)
     (.flush w)))
+
+
+(defn response-ring-to-api-gateway
+  [r]
+  (-> r
+      (assoc
+       :statusCode
+       (:status r))
+      (dissoc :status)
+      (assoc :isBase64Encoded false)))
