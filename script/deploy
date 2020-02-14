@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+echo "-- com.sixpages.api-lacinia-pedestal-component --"
+
+# load paths
+source $( cd "$(dirname "$0")" ; pwd -P )/paths
+
+# load configuration
+source $SCRIPT_PATH/configuration
+
+
+echo "---> deploy"
+
+cd $BASE_PATH
+
+aws lambda \
+    update-function-code \
+    --profile $AWS_PROFILE \
+    --region $AWS_REGION \
+    --function-name $AWS_LAMBDA_FN_NAME \
+    --zip-file fileb://${TARGET_PATH}/${TARGET_NAME} \
+    --publish
+
+cd $CURRENT_PATH
+
+echo "--- fin. ---"

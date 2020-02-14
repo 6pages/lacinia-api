@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+echo "-- com.sixpages.api-lacinia-pedestal-component --"
+
+
+# load paths
+source $( cd "$(dirname "$0")" ; pwd -P )/paths
+
+# load configuration
+source $SCRIPT_PATH/configuration
+
+
+
+echo "---> clean"
+
+cd $BASE_PATH
+
+lein clean
+
+
+
+echo "---> lein uberjar"
+
+## https://github.com/tonsky/uberdeps doesn't yet have support for AOT compliation
+##  we can switch back to tools.deps (below) once AOT is possible
+#clj -A:uberjar
+
+lein with-profile +lambda uberjar >/dev/null
+
+cd $CURRENT_PATH
+
+
+echo "--- fin. ---"

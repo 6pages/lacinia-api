@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+# load paths
+source $( cd "$(dirname "$0")" ; pwd -P )/paths
+
+
+# build > configure > deploy
+
+bash $SCRIPT_PATH/build $1 \
+&& echo "" \
+&& bash $SCRIPT_PATH/deploy $1 \

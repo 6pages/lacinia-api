@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+export AWS_PROFILE=6Pages
+export AWS_REGION=us-east-1
+
+
+export AWS_LAMBDA_FN_NAME=api-lacinia-pedestal-component
+export AWS_LAMBDA_HANDLER="com.sixpages.api-lacinia-pedestal-component.handler"
+
+export TARGET_PATH=target
+export TARGET_NAME=api-lacinia-pedestal-component-0.0.1-SNAPSHOT-standalone.jar
