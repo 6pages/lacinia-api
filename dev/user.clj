@@ -3,6 +3,7 @@
             [clojure.data.json :as json]
             [clojure.tools.namespace.repl :refer (refresh refresh-all)]
             [com.stuartsierra.component :as component]
+            [com.sixpages.api-lacinia-pedestal-component.configuration :as configuration]
             [com.sixpages.api-lacinia-pedestal-component.server :as server]
             [com.sixpages.api-lacinia-pedestal-component.system :as system]))
 
@@ -12,7 +13,7 @@
 (def user-system nil)
 
 (defn new-system []
-  (let [config (load-config)
+  (let [config (configuration/load-m)
         server (server/new-component config)]
     (-> config
         system/new-system
@@ -58,7 +59,13 @@
 
 ;; Basic tests
 
-(defn get-endpoint []
+(def config-by-env-k
+  {:dev (configuration/load-m)
+   :alt {:endpoint {:protocol "https"
+                     :host "localhost"
+                     :path "dev"}}})
+
+(defn get-endpoint [env-k]
   (let [config (config-by-env-k env-k)
         {:keys [protocol host path port]} (:endpoint config)
         s (str protocol "://" host)]
