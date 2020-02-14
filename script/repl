@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+
+echo "-- com.sixpages.api-lacinia-pedestal-component --"
+
+
+# load paths
+source $( cd "$(dirname "$0")" ; pwd -P )/paths
+
+
+
+# Clear the logs
+
+LOG_PATH=/var/tmp/log/sixpages/dev
+echo "---> clean logs (${LOG_PATH})"
+rm -rf $LOG_PATH
+
+
+cd $BASE_PATH
+
+echo "---> load environment variables"
+source .env
+
+# start a headless repl
+#clj -A:log -A:dev -A:cider-clj
+echo "---> lein repl :headless"
+lein with-profile +dev,+log repl :headless
