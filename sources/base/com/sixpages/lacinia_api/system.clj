@@ -12,7 +12,7 @@
   [config extra-deps-m]
   (merge
    (component/system-map
-    :resolvers (resolvers/new-component)
+    :resolvers (resolvers/new-component config)
     :schema (component/using
               (schema/new-component config)
               [:resolvers]))

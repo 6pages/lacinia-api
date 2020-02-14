@@ -28,9 +28,11 @@
     [config]
   component/Lifecycle
 
-  (start [this])
+  (start [this]
+    this)
 
-  (stop [this]))
+  (stop [this]
+    this))
 
 
 (defn new-component
