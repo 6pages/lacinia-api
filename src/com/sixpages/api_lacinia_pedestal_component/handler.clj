@@ -26,6 +26,7 @@
     (println "-------------------------")
     
     (io/write-json
+     output-stream
      {:statusCode 200
       :body "Thanks for using com.sixpages.api-lacinia-pedestal-component"
       :isBase64Encoded false})))
