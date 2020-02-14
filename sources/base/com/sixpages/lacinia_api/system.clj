@@ -1,9 +1,7 @@
 (ns com.sixpages.lacinia-api.system
-  (:gen-class)
-  (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
-            [com.stuartsierra.component :as component]
-            #_[com.sixpages.lacinia-api.service :as service]))
+  (:require [com.stuartsierra.component :as component]
+            [com.sixpages.lacinia-api.resolvers :as resolvers]
+            [com.sixpages.lacinia-api.schema :as schema]))
 
 
 
@@ -11,25 +9,27 @@
   nil)
 
 (defn new-system
-  [config]
-  (component/system-map
-   ;;:service (service/new-component config)
-   ))
+  [config extra-deps-m]
+  (merge
+   (component/system-map
+    :resolvers (resolvers/new-component)
+    :schema (component/using
+              (schema/new-component config)
+              [:resolvers]))
+   extra-deps-m))
 
 (defn get-system
-  [config]
-  (when-not *system*
-    (alter-var-root
-     #'*system*
-     (constantly
-      (component/start
-       (new-system config)))))
-  *system*)
 
+  ([config]
+   (get-system config {}))
 
-
-#_(defn -main
-  [& args]
-  (let [cfg (load-config)]
-    (component/start
-     (new-system cfg))))
+  ([config extra-deps-m]
+   (when-not *system*
+     (alter-var-root
+      #'*system*
+      (constantly
+       (component/start
+        (new-system
+         config
+         extra-deps-m)))))
+   *system*))
