@@ -4,8 +4,7 @@
    :name com.sixpages.lacinia-api.handler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
-  (:require [clojure.data.json :as json]
-            [clojure.edn :as edn]
+  (:require [clojure.edn :as edn]
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.io :as io]
@@ -15,9 +14,7 @@
 
 (defn query
   [request-m]
-  (json/read-str
-   (:body request-m)
-   :key-fn keyword))
+  (:body request-m))
 
 (defn execute
   [sys-m query-m]
