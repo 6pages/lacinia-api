@@ -18,8 +18,7 @@
                  ]
 
   :source-paths ["sources/base"]
-  :resource-paths ["config"
-                   "resources/schemas"]
+  :resource-paths ["resources/schemas"]
 
   :profiles {
              :pedestal
@@ -37,7 +36,8 @@
                               :exclusions [io.pedestal/pedestal.service
                                            io.pedestal/pedestal.jetty
                                            com.walmartlabs/lacinia]]]
-              :source-paths ["sources/pedestal"]}
+              :source-paths ["sources/pedestal"]
+              :resource-paths ["config/pedestal"]}
              
              :lambda
              {:dependencies [
@@ -45,6 +45,7 @@
                              [com.amazonaws/aws-lambda-java-events "2.2.6"]
                              [com.amazonaws/aws-lambda-java-log4j2 "1.0.0"]]
               :source-paths ["sources/lambda"]
+              :resource-paths ["config/lambda"]
               :aot [com.sixpages.lacinia-api.handler]}
 
              :dev
@@ -52,7 +53,8 @@
                              [org.clojure/tools.namespace "0.3.1"]
                              [clj-http "3.10.0"]]
               :source-paths ["sources/dev"]
-              :resource-paths ["resources/logging/dev"]}
+              :resource-paths ["config/dev"
+                               "resources/logging/dev"]}
 
              :uberjar
              {:resource-paths ["resources/logging/prod"]}})

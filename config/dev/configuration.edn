@@ -1,11 +1,12 @@
 {
- :env :dev
-
  :environment-variable-to-configuration-path
- {:environment                          [:environment]
-  :aws_profile                          [:aws :dynamo-db :profile]
-  :aws_region                           [:aws :dynamo-db :region]}
+ {:environment [:environment]
+  :aws_profile [:aws :profile]
+  :aws_region  [:aws :region]}
 
+ :schema
+ {:name :schema}
+ 
  :lacinia-pedestal-service {:graphiql true}
 
  :io-pedestal-http {:env :dev

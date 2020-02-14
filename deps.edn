@@ -16,7 +16,8 @@
         org.slf4j/jcl-over-slf4j               {:mvn/version "1.7.14"}
         org.slf4j/log4j-over-slf4j             {:mvn/version "1.7.14"}}
 
- :paths ["sources/base" "resources/schemas" "config"]
+ :paths ["resources/schemas"
+         "sources/base"]
  
  :aliases
  {
@@ -36,14 +37,16 @@
                                             :exclusions [io.pedestal/pedestal.service
                                                          io.pedestal/pedestal.jetty
                                                          com.walmartlabs/lacinia]}}
-   :extra-paths ["sources/pedestal"]}
+   :extra-paths ["config/pedestal"
+                 "sources/pedestal"]}
 
   :lambda
   {:extra-deps
    {com.amazonaws/aws-lambda-java-core {:mvn/version "1.2.0"}
     com.amazonaws/aws-lambda-java-events {:mvn/version "2.2.6"}
     com.amazonaws/aws-lambda-java-log4j2 {:mvn/version "1.0.0"}}
-   :extra-paths ["sources/lambda"]
+   :extra-paths ["config/lambda"
+                 "sources/lambda"]
    :aot [com.sixpages.api-lacinia-pedestal-component.handler]}
 
 
@@ -51,7 +54,9 @@
   {:extra-deps
    {org.clojure/tools.namespace {:mvn/version "0.3.1"}
     clj-http                    {:mvn/version "3.10.0"}}
-   :extra-paths ["sources/dev" "resources/logging/dev"]}
+   :extra-paths ["config/dev"
+                 "sources/dev"
+                 "resources/logging/dev"]}
 
   :cider-clj
   {:extra-deps {cider/cider-nrepl                  {:mvn/version "0.22.1"}}
