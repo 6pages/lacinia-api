@@ -78,7 +78,7 @@ data "aws_region" "current" {}
 
 resource "aws_lambda_function" "fn" {
   function_name = var.name
-  handler = "index.handler"
+  handler = "com.sixpages.lacinia-api.handler"
   runtime = "java11"
   timeout = 300
   role = aws_iam_role.role.arn
