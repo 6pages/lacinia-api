@@ -19,6 +19,7 @@ variable "deployment_description" {
 }
 
 variable "source_path" {
+  # NOTE: relative to state/main.tf (not this file)
   default = "../../.."
 }
 

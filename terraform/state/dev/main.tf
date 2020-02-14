@@ -23,8 +23,9 @@ locals {
 #
 # graphql api
 
-module "graphql_api" {
-  source         = "../../module/lacinia-api"
+module "lambda_graphql_api" {
+  source         = "../../modules/lacinia-api/lambda"
+  
   environment    = local.environment
   name           = "graphql-api-${local.environment}"
   description    = "[${local.environment}] Responds to GraphQL queries."

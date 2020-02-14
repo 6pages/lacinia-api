@@ -42,4 +42,4 @@ override.tf.json
 
 ## tfstate
 ## IMPORTANT: you probably want to store your tfstate somewhere...
-*.tfstate
+*.tfstate*
