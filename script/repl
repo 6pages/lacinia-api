@@ -24,4 +24,4 @@ source .env
 # start a headless repl
 #clj -A:log -A:dev -A:cider-clj
 echo "---> lein repl :headless"
-lein with-profile +dev,+log repl :headless
+lein with-profile +dev,+pedestal,+lambda repl :headless

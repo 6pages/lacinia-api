@@ -25,7 +25,7 @@ echo "---> lein uberjar"
 ##  we can switch back to tools.deps (below) once AOT is possible
 #clj -A:uberjar
 
-lein with-profile +lambda uberjar >/dev/null
+lein with-profile +lambda,+uberjar uberjar >/dev/null
 
 cd $CURRENT_PATH
 
