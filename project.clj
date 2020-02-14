@@ -6,12 +6,8 @@
 
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/core.async "0.4.500"]
-                 
-                 ;; lacinia (graphql)
-                 [com.walmartlabs/lacinia "0.36.0"]
-
-                 ;; libraries
                  [com.stuartsierra/component "0.4.0"]
+                 [com.walmartlabs/lacinia "0.36.0"]
 
                  ;; logging
                  [ch.qos.logback/logback-classic "1.2.3"
