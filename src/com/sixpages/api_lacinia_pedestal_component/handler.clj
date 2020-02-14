@@ -2,31 +2,31 @@
 
   (:gen-class
    :name com.sixpages.api-lacinia-pedestal-component.handler
-   :implements [com.sixpages.api-lacinia-pedestal-component.handler])
+   :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
+            [com.sixpages.api-lacinia-pedestal-component.handler.configuration :as configuration]
+            [com.sixpages.api-lacinia-pedestal-component.handler.io :as io]
             [com.sixpages.api-lacinia-pedestal-component.system :as system]))
 
-(def load-config
-  (memoize
-   (fn []
-     (some-> "configuration.edn"
-             io/resource
-             slurp
-             edn/read-string))))
 
 
 (defn -handleRequest
-  [this is os context]
-  (let [request (io/reader is)]
+  [this
+   input-stream
+   output-stream
+   context]
+  (let [config (configuration/load-m)
+        sys (system/get config)
+        request-m (io/read-m input-stream)]
 
     (println "Request received --------")
-    (clojure.pprint/pprint request)
+    (clojure.pprint/pprint request-m)
     (println "-------------------------")
     
-    ;; respond to HTTP request
-    (let [w (io/writer os)]
-      (.write w "RESPONSE")
-      (.flush w))))
+    (io/write-json
+     {:statusCode 200
+      :body "Thanks for using com.sixpages.api-lacinia-pedestal-component"
+      :isBase64Encoded false})))

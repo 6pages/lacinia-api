@@ -2,8 +2,9 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
-            [com.walmartlabs.lacinia.pedestal :as lacinia-pedestal]
-            [com.walmartlabs.lacinia.schema :as schema]
+            [com.walmartlabs.lacinia.pedestal :as lp]
+            [com.walmartlabs.lacinia.pedestal.interceptors :as lpi]
+            [com.walmartlabs.lacinia.schema :as lacinia-schema]
             [com.walmartlabs.lacinia.util :as util]
             [io.pedestal.interceptor :as interceptor]
             [io.pedestal.log :as log]
@@ -32,7 +33,7 @@
       slurp
       edn/read-string
       (util/attach-resolvers resolvers)
-      schema/compile))
+      lacinia-schema/compile))
 
 
 
@@ -122,20 +123,20 @@
                                (dissoc :lacinia-pedestal-service))
          system-m {::system system-components}]
      [log-request-response-interceptor
-      lacinia-pedestal/json-response-interceptor
-      lacinia-pedestal/graphql-data-interceptor
-      lacinia-pedestal/status-conversion-interceptor
-      lacinia-pedestal/missing-query-interceptor
-      (lacinia-pedestal/query-parser-interceptor schema)
-      lacinia-pedestal/disallow-subscriptions-interceptor
-      lacinia-pedestal/prepare-query-interceptor
+      lp/json-response-interceptor
+      lp/graphql-data-interceptor
+      lp/status-conversion-interceptor
+      lp/missing-query-interceptor
+      (lp/query-parser-interceptor schema)
+      lp/disallow-subscriptions-interceptor
+      lp/prepare-query-interceptor
 
       ;; used for access to components from query resolvers
-      (lacinia-pedestal/inject-app-context-interceptor system-m)
+      (lpi/inject-app-context-interceptor system-m)
       
       (if async
-        lacinia-pedestal/async-query-executor-handler
-        lacinia-pedestal/query-executor-handler)])))
+        lp/async-query-executor-handler
+        lp/query-executor-handler)])))
 
 (defn interceptors
   "builds interceptor stack"
@@ -156,7 +157,7 @@
    (-> compiled-schema
 
        ;; add lacinia configuration and interceptor chain
-       (lacinia-pedestal/service-map
+       (lp/service-map
         (assoc lacinia-pedestal-service
                :interceptors interceptors))
 

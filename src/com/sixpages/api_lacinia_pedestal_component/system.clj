@@ -6,27 +6,34 @@
             [com.sixpages.api-lacinia-pedestal-component.server :as server]
             [com.sixpages.api-lacinia-pedestal-component.service :as service]))
 
+
+
+(def ^:dynamic *system*
+  nil)
+
 (defn new-system
   [config]
-  (let [service (service/new-component config)]
-    (component/system-map
-     :service (component/using
-                service
-                [])
-     :server (component/using
-               (server/new-component config)
-               [:service]))))
+  (component/system-map
+   :service (component/using
+              (service/new-component config)
+              [])
+   :server (component/using
+             (server/new-component config)
+             [:service])))
+
+(defn get-system
+  [configuration]
+  (when-not *system*
+    (alter-var-root
+     #'*system*
+     (constantly
+      (component/start
+       (new-system configuration)))))
+  *system*)
 
 
-(def load-config
-  (memoize
-   (fn []
-     (some-> "configuration.edn"
-             io/resource
-             slurp
-             edn/read-string))))
 
-(defn -main
+#_(defn -main
   [& args]
   (let [cfg (load-config)]
     (component/start
