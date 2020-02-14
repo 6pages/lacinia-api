@@ -5,10 +5,9 @@
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
   (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
-            [com.sixpages.api-lacinia-pedestal-component.handler.configuration :as configuration]
-            [com.sixpages.api-lacinia-pedestal-component.handler.io :as io]
+            [com.sixpages.api-lacinia-pedestal-component.configuration :as configuration]
+            [com.sixpages.api-lacinia-pedestal-component.io :as io]
             [com.sixpages.api-lacinia-pedestal-component.system :as system]))
 
 
@@ -19,7 +18,7 @@
    output-stream
    context]
   (let [config (configuration/load-m)
-        sys (system/get config)
+        sys (system/get-system config)
         request-m (io/read-m input-stream)]
 
     (println "Request received --------")

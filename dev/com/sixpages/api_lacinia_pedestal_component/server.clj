@@ -3,16 +3,16 @@
             [io.pedestal.http :as http]))
 
 (defrecord Server
-    [service io-pedestal-http]
+    [service config]
   component/Lifecycle
 
   (start [this]
     (if (:running-server this)
       this
       (do
-        
-        (let [port (:io.pedestal.http/port io-pedestal-http)]
-          (println "Starting Server component on " port))
+
+        (let [port (get-in config [:io-pedestal-http :io.pedestal.http/port])]
+          (println "Starting Server component on port" port))
         
         (let [service-map (get-in this [:service :service-map])
               server (-> service-map

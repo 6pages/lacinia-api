@@ -12,20 +12,22 @@
 
 (def user-system nil)
 
-(defn new-system []
-  (let [config (configuration/load-m)
-        server (server/new-component config)]
-    (-> config
-        system/new-system
-        (assoc
-         :server (component/using
-                   server
-                   [:service])))))
+(defn new-system
+  [config]
+  (-> config
+      system/new-system
+      (assoc
+       :server
+       (component/using
+         (server/new-component config)
+         [:service]))))
 
 (defn init []
   (alter-var-root
    #'user-system
-   (constantly (new-system))))
+   (constantly
+    (new-system
+     (configuration/load-m)))))
 
 (defn start []
   (alter-var-root

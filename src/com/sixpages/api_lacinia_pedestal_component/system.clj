@@ -3,7 +3,6 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
-            [com.sixpages.api-lacinia-pedestal-component.server :as server]
             [com.sixpages.api-lacinia-pedestal-component.service :as service]))
 
 
@@ -14,21 +13,16 @@
 (defn new-system
   [config]
   (component/system-map
-   :service (component/using
-              (service/new-component config)
-              [])
-   :server (component/using
-             (server/new-component config)
-             [:service])))
+   :service (service/new-component config)))
 
 (defn get-system
-  [configuration]
+  [config]
   (when-not *system*
     (alter-var-root
      #'*system*
      (constantly
       (component/start
-       (new-system configuration)))))
+       (new-system config)))))
   *system*)
 
 
