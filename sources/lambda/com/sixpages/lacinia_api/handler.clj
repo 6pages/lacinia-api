@@ -1,14 +1,14 @@
-(ns com.sixpages.api-lacinia-pedestal-component.handler
+(ns com.sixpages.lacinia-api.handler
 
   (:gen-class
-   :name com.sixpages.api-lacinia-pedestal-component.handler
+   :name com.sixpages.lacinia-api.handler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
   (:require [clojure.edn :as edn]
             [com.stuartsierra.component :as component]
-            [com.sixpages.api-lacinia-pedestal-component.configuration :as configuration]
-            [com.sixpages.api-lacinia-pedestal-component.io :as io]
-            [com.sixpages.api-lacinia-pedestal-component.system :as system]))
+            [com.sixpages.lacinia-api.configuration :as configuration]
+            [com.sixpages.lacinia-api.io :as io]
+            [com.sixpages.lacinia-api.system :as system]))
 
 
 
@@ -28,5 +28,5 @@
     (io/write-json
      output-stream
      {:statusCode 200
-      :body "Thanks for using com.sixpages.api-lacinia-pedestal-component"
+      :body "Thanks for using com.sixpages.lacinia-api"
       :isBase64Encoded false})))

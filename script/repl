@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-echo "-- com.sixpages.api-lacinia-pedestal-component --"
+echo "-- com.sixpages.lacinia-api --"
 
 
 # load paths

@@ -1,9 +1,9 @@
-(ns com.sixpages.api-lacinia-pedestal-component.system
+(ns com.sixpages.lacinia-api.system
   (:gen-class)
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
-            #_[com.sixpages.api-lacinia-pedestal-component.service :as service]))
+            #_[com.sixpages.lacinia-api.service :as service]))
 
 
 

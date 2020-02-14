@@ -45,7 +45,7 @@
                              [com.amazonaws/aws-lambda-java-events "2.2.6"]
                              [com.amazonaws/aws-lambda-java-log4j2 "1.0.0"]]
               :source-paths ["sources/lambda"]
-              :aot [com.sixpages.api-lacinia-pedestal-component.handler]}
+              :aot [com.sixpages.lacinia-api.handler]}
 
              :dev
              {:dependencies [

@@ -1,4 +1,4 @@
-(ns com.sixpages.api-lacinia-pedestal-component.configuration
+(ns com.sixpages.lacinia-api.configuration
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]))
 

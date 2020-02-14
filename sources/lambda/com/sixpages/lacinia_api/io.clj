@@ -1,4 +1,4 @@
-(ns com.sixpages.api-lacinia-pedestal-component.io
+(ns com.sixpages.lacinia-api.io
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.string :as s]))

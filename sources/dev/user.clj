@@ -3,9 +3,9 @@
             [clojure.data.json :as json]
             [clojure.tools.namespace.repl :refer (refresh refresh-all)]
             [com.stuartsierra.component :as component]
-            [com.sixpages.api-lacinia-pedestal-component.configuration :as configuration]
-            [com.sixpages.api-lacinia-pedestal-component.server :as server]
-            [com.sixpages.api-lacinia-pedestal-component.system :as system]))
+            [com.sixpages.lacinia-api.configuration :as configuration]
+            [com.sixpages.lacinia-api.server :as server]
+            [com.sixpages.lacinia-api.system :as system]))
 
 
 ;; system & component REPL refresh

@@ -1,4 +1,4 @@
-(ns com.sixpages.api-lacinia-pedestal-component.server
+(ns com.sixpages.lacinia-api.server
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.http :as http]))
 
