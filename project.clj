@@ -1,6 +1,6 @@
-(defproject api-lacinia-pedestal-component "0.0.1-SNAPSHOT"
+(defproject lacinia-api "0.0.1-SNAPSHOT"
   :description "Lacinia-based GraphQL API service"
-  :url "http://github.com/adamtait/lacinia-pedestal-component-base"
+  :url "http://github.com/adamtait/lacinia-api"
 
   :min-lein-version "2.0.0"
 
