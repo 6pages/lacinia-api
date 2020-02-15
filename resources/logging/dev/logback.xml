@@ -7,16 +7,18 @@
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %X %marker%n</pattern>
     </encoder>
-    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- rollover daily -->
-      <fileNamePattern>logs/api-lacinia-pedestal-component-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <fileNamePattern>/var/tmp/log/sixpages/dev/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <!-- <fileNamePattern>logs/ion-provider-%d{yyyy-MM-dd}.%i.log</fileNamePattern> -->
       <timeBasedFileNamingAndTriggeringPolicy
           class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <!-- or whenever the file size reaches 64 MB -->
         <maxFileSize>64 MB</maxFileSize>
       </timeBasedFileNamingAndTriggeringPolicy>
     </rollingPolicy>
-
+    
     <!-- If true, safely log to the same file from multiple JVMs,
          which degrades performance. -->
     <prudent>false</prudent>

@@ -1,11 +1,16 @@
-<configuration scan="true" scanPeriod="1 second">
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
-    <logger name="io.pedestal.http" level="WARN"/>
-</configuration>
+<!-- https://docs.aws.amazon.com/en_pv/sdk-for-java/v2/developer-guide/java-dg-logging.html -->
+
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="ConsoleAppender" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c:%L - %m%n" />
+    </Console>
+  </Appenders>
+
+  <Loggers>
+    <Root level="WARN">
+      <AppenderRef ref="ConsoleAppender"/>
+    </Root>
+    <Logger name="software.amazon.awssdk" level="WARN" />
+  </Loggers>
+</Configuration>
