@@ -12,6 +12,28 @@
             [com.sixpages.lacinia-api.system :as system]
             [com.walmartlabs.lacinia :as lacinia]))
 
+
+;;
+;; validations
+
+(defn content-type
+  [request-m]
+  (get-in
+             request-m
+             [:headers
+              :content-type]))
+
+(defn correct-content-type?
+  [request-m]
+  (=
+   "application/graphql"
+   (content-type request-m)))
+
+
+
+;;
+;; lacinia helpers
+
 (defn query
   [request-m]
   (:body request-m))
@@ -28,6 +50,29 @@
      )))
 
 
+;;
+;; response
+
+(defn build-response
+  [sys-m request-m]
+  (if (not
+       (correct-content-type? request-m))
+
+    {:status 404
+     :body (str "request content-type needs to be \"application/graphql\"."
+                " Was " (content-type request-m))}
+    
+    (let [q (query request-m)]
+      (execute sys-m q))))
+
+
+
+
+
+;;
+;;  RequestStreamHandler. handleRequest
+;;    main entry point for AWS Lambda requests
+
 (defn -handleRequest
   [this
    input-stream
@@ -42,13 +87,12 @@
     (clojure.pprint/pprint request-m)
     (println "-------------------------")
 
-    (let [response {:status 200
-                    :body "Thanks for using com.sixpages.lacinia-api"}
-          q (query request-m)
-          r (execute sys-m q)]
+    
+    (let [r (build-response
+             sys-m
+             request-m)]
 
       (println "Response built --------")
-      (println q)
       (clojure.pprint/pprint r)
       (println "-------------------------")
       

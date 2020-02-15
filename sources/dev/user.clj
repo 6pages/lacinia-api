@@ -83,4 +83,4 @@
   (http-client/post
    (get-endpoint)
    {:headers {"Content-Type" "application/graphql"}
-    :body "{ hello() }"}))
+    :body "{ hello }"}))
