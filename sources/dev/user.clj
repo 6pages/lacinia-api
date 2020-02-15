@@ -4,30 +4,57 @@
             [clojure.tools.namespace.repl :refer (refresh refresh-all)]
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
-            [com.sixpages.lacinia-api.server :as server]
+            [com.sixpages.lacinia-api.lambda.handler :as lambda-handler]
+            [com.sixpages.lacinia-api.pedestal.server :as pedestal-server]
+            [com.sixpages.lacinia-api.pedestal.service :as pedestal-service]
             [com.sixpages.lacinia-api.system :as system]))
 
 
+;;
 ;; system & component REPL refresh
 
-(def user-system nil)
+(def ^:dynamic user-system
+  nil)
 
-(defn new-system
+
+;;
+;; system builders
+
+(defmulti new-system
+  (fn [config] (:system-type config)))
+
+(defmethod new-system :lambda
   [config]
-  (-> config
-      system/new-system
-      (assoc
-       :server
-       (component/using
-         (server/new-component config)
-         [:service]))))
+  (system/new-system config))
 
-(defn init []
-  (alter-var-root
-   #'user-system
-   (constantly
-    (new-system
-     (configuration/load-m)))))
+(defmethod new-system :pedestal
+  [config]
+  (system/new-system
+   config
+   {:service (pedestal-service/new-component config)
+    :server
+    (component/using
+      (pedestal-server/new-component config)
+      [:service])}))
+
+
+
+
+;;
+;; system management interfaces
+
+(defn init
+  ([]
+   (init :lambda))
+  ([system-type]
+   (alter-var-root
+    #'user-system
+    (constantly
+     (new-system
+      (assoc
+       (configuration/load-m)
+       :system-type
+       system-type))))))
 
 (defn start []
   (alter-var-root
@@ -42,10 +69,14 @@
       (component/stop %)))
   :ok)
 
-(defn go []
-  (init)
-  (start)
-  :ready)
+(defn go
+  ([]
+   (go :lambda))
+  
+  ([system-type]
+   (init system-type)
+   (start)
+   :ready))
 
 (defn reset []
   (stop)
@@ -59,13 +90,32 @@
 
 
 
-;; Basic tests
+
+;; Lambda tests
+
+(defn lambda-request
+  []
+  {:headers
+   {:content-type "application/graphql"}
+   :body
+   "{ hello }"})
+
+(defn lambda-test
+  [sys]
+  (lambda-handler/build-response
+   sys
+   (lambda-request)))
+
+
+
+
+;; Pedestal tests
 
 (def config-by-env-k
   {:dev (configuration/load-m)
    :alt {:endpoint {:protocol "https"
-                     :host "localhost"
-                     :path "dev"}}})
+                    :host "localhost"
+                    :path "dev"}}})
 
 (defn get-endpoint [env-k]
   (let [config (config-by-env-k env-k)
@@ -78,9 +128,13 @@
 
 ;; curl localhost:8888/graphql -X POST -H "Content-Type: application/graphql" -d "{ content(slug: \"/brief-template\") }"
 
+(defn pedestal-request
+  []
+  {:headers {"Content-Type" "application/graphql"}
+   :body "{ hello }"})
+
 (defn request-content
   [env]
   (http-client/post
    (get-endpoint)
-   {:headers {"Content-Type" "application/graphql"}
-    :body "{ hello }"}))
+   (pedestal-request)))

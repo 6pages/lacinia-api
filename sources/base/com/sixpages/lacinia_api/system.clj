@@ -9,14 +9,17 @@
   nil)
 
 (defn new-system
-  [config extra-deps-m]
-  (merge
-   (component/system-map
-    :resolvers (resolvers/new-component config)
-    :schema (component/using
-              (schema/new-component config)
-              [:resolvers]))
-   extra-deps-m))
+  ([config]
+   (new-system config {}))
+  
+  ([config extra-deps-m]
+   (merge
+    (component/system-map
+     :resolvers (resolvers/new-component config)
+     :schema (component/using
+               (schema/new-component config)
+               [:resolvers]))
+    extra-deps-m)))
 
 (defn get-system
 

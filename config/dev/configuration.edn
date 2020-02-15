@@ -1,4 +1,6 @@
 {
+ :system-type nil
+ 
  :environment-variable-to-configuration-path
  {:environment [:environment]
   :aws_profile [:aws :profile]
