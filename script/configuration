@@ -6,7 +6,7 @@ export AWS_REGION=us-east-1
 
 
 export AWS_LAMBDA_FN_NAME=graphql-api-dev
-export AWS_LAMBDA_HANDLER="com.sixpages.lacinia-api.handler"
+export AWS_LAMBDA_HANDLER="com.sixpages.lacinia-api.lambda.handler"
 
 export TARGET_PATH=target
 export TARGET_NAME=lacinia-api-0.0.1-SNAPSHOT-standalone.jar

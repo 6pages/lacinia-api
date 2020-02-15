@@ -1,4 +1,4 @@
-(ns com.sixpages.lacinia-api.entry
+(ns com.sixpages.lacinia-api.pedestal.entry
   (:gen-class)
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]

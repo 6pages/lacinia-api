@@ -84,7 +84,7 @@ resource "aws_lambda_function" "fn" {
   timeout          = var.timeout
   memory_size      = var.memory_size
 
-  handler          = "com.sixpages.lacinia-api.handler"
+  handler          = "com.sixpages.lacinia-api.lambda.handler"
   description      = var.description
 
   filename         = local.target

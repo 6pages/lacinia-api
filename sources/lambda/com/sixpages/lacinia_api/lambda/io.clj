@@ -1,4 +1,4 @@
-(ns com.sixpages.lacinia-api.io
+(ns com.sixpages.lacinia-api.lambda.io
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.string :as s]))

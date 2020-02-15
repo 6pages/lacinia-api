@@ -1,13 +1,13 @@
-(ns com.sixpages.lacinia-api.handler
+(ns com.sixpages.lacinia-api.lambda.handler
 
   (:gen-class
-   :name com.sixpages.lacinia-api.handler
+   :name com.sixpages.lacinia-api.lambda.handler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
   (:require [clojure.edn :as edn]
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
-            [com.sixpages.lacinia-api.io :as io]
+            [com.sixpages.lacinia-api.lambda.io :as io]
             [com.sixpages.lacinia-api.schema :as schema]
             [com.sixpages.lacinia-api.system :as system]
             [com.walmartlabs.lacinia :as lacinia]))
