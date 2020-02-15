@@ -59,8 +59,8 @@
        (correct-content-type? request-m))
 
     {:status 404
-     :body (str "request content-type needs to be \"application/graphql\"."
-                " Was " (content-type request-m))}
+     :body (str "request content-type needs to be 'application/graphql'."
+                " Was '" (content-type request-m) "'")}
     
     (let [q (query request-m)]
       (execute sys-m q))))
