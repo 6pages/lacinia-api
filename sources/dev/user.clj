@@ -102,9 +102,9 @@
 
 (defn lambda-test
   [sys]
-  (lambda-handler/build-response
-   sys
-   (lambda-request)))
+  (->> (lambda-request)
+       (lambda-handler/resolve-query sys)
+       lambda-handler/build-response))
 
 
 

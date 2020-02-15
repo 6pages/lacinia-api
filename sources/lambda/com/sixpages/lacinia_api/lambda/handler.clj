@@ -53,7 +53,7 @@
 ;;
 ;; response
 
-(defn build-response
+(defn resolve-query
   [sys-m request-m]
   (if (not
        (correct-content-type? request-m))
@@ -65,6 +65,16 @@
     (let [q (query request-m)]
       (execute sys-m q))))
 
+(defn build-response
+  [query-results]
+  (reduce-kv
+   (fn [response result-k result-m]
+     (merge
+      response
+      (edn/read-string
+       result-m)))
+   {}
+   (:data query-results)))
 
 
 
@@ -88,15 +98,15 @@
     (println "-------------------------")
 
     
-    (let [r (build-response
+    (let [result (resolve-query
              sys-m
              request-m)]
 
-      (println "Response built --------")
-      (clojure.pprint/pprint r)
+      (println "Query resolved --------")
+      (clojure.pprint/pprint result)
       (println "-------------------------")
       
       (io/write-json
        output-stream
        (io/response-ring-to-api-gateway
-        r)))))
+        (build-response result))))))
