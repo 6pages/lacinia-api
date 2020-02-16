@@ -33,4 +33,10 @@
        :statusCode
        (:status r))
       (dissoc :status)
+      (update
+       :headers
+       #(reduce-kv
+         (fn [acc k v] (assoc acc (name k) v))
+         {}
+         %))
       (assoc :isBase64Encoded false)))

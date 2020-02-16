@@ -67,14 +67,12 @@
 
 (defn build-response
   [query-results]
-  (reduce-kv
-   (fn [response result-k result-m]
-     (merge
-      response
-      (edn/read-string
-       result-m)))
-   {}
-   (:data query-results)))
+  (let [headers {:content-type "application/json"}
+        body (json/write-str
+              query-results)]
+    {:status 200
+     :headers headers
+     :body body}))
 
 
 
