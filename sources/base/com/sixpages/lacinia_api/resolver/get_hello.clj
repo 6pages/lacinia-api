@@ -17,7 +17,7 @@
     this)
 
   resolver/Resolver
-  (resolve-request
+  (execute
     [this context args value]
     (get-in
      this

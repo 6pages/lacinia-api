@@ -3,12 +3,12 @@
 
 
 ;;
-;; Resolver Component protocol
+;; Resolver protocol
 ;;   your resolver components must implement this
 
 (defprotocol Resolver
   "protocol for resolver components"
-  (resolve-request [this context args value]))
+  (execute [this context args value]))
 
 
 ;;
@@ -24,7 +24,7 @@
 (defn wrap
   [component]
   (fn [context args value]
-    (resolve-request
+    (execute
      component
      context
      args
