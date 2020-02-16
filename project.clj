@@ -1,4 +1,4 @@
-(defproject lacinia-api "0.0.1-SNAPSHOT"
+(defproject api-user-payments "0.0.1-SNAPSHOT"
   :description "Lacinia-based GraphQL API service"
   :url "http://github.com/adamtait/lacinia-api"
 
@@ -46,7 +46,7 @@
                              [com.amazonaws/aws-lambda-java-log4j2 "1.0.0"]]
               :source-paths ["sources/lambda"]
               :resource-paths ["config/lambda"]
-              :aot [com.sixpages.lacinia-api.handler]}
+              :aot [com.sixpages.lacinia-api.lambda.handler]}
 
              :dev
              {:dependencies [

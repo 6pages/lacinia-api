@@ -47,7 +47,7 @@
     com.amazonaws/aws-lambda-java-log4j2 {:mvn/version "1.0.0"}}
    :extra-paths ["config/lambda"
                  "sources/lambda"]
-   :aot [com.sixpages.api-lacinia-pedestal-component.handler]}
+   :aot [com.sixpages.api-lacinia-pedestal-component.lambda.handler]}
 
 
   :dev
