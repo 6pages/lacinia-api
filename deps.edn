@@ -37,7 +37,7 @@
                                             :exclusions [io.pedestal/pedestal.service
                                                          io.pedestal/pedestal.jetty
                                                          com.walmartlabs/lacinia]}}
-   :extra-paths ["config/pedestal"
+   :extra-paths ["resources/configuration/pedestal"
                  "sources/pedestal"]}
 
   :lambda
@@ -45,7 +45,7 @@
    {com.amazonaws/aws-lambda-java-core {:mvn/version "1.2.0"}
     com.amazonaws/aws-lambda-java-events {:mvn/version "2.2.6"}
     com.amazonaws/aws-lambda-java-log4j2 {:mvn/version "1.0.0"}}
-   :extra-paths ["config/lambda"
+   :extra-paths ["resources/configuration/lambda"
                  "sources/lambda"]
    :aot [com.sixpages.api-lacinia-pedestal-component.lambda.handler]}
 
@@ -54,8 +54,7 @@
   {:extra-deps
    {org.clojure/tools.namespace {:mvn/version "0.3.1"}
     clj-http                    {:mvn/version "3.10.0"}}
-   :extra-paths ["config/dev"
-                 "sources/dev"
+   :extra-paths ["sources/dev"
                  "resources/logging/dev"]}
 
   :cider-clj
