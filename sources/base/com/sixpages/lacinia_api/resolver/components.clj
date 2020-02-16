@@ -4,11 +4,11 @@
 
 
 ;;
-;; all
+;; build
 ;;  single place to keep track of all your resolver components
 ;;  referenced anywhere that systems are built
 
-(defn all
+(defn build
   [config]
   {:get-hello (get-hello/new-component config)})
 

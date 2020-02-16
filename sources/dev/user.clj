@@ -7,6 +7,7 @@
             [com.sixpages.lacinia-api.lambda.handler :as lambda-handler]
             [com.sixpages.lacinia-api.pedestal.server :as pedestal-server]
             [com.sixpages.lacinia-api.pedestal.service :as pedestal-service]
+            [com.sixpages.lacinia-api.resolver.components :as resolvers]
             [com.sixpages.lacinia-api.system :as system]))
 
 
@@ -27,7 +28,7 @@
   [config]
   (system/new-system
    config
-   (lambda-handler/resolver-components config)))
+   (resolvers/build config)))
 
 (defmethod new-system :pedestal
   [config]

@@ -6,7 +6,7 @@
 ;; Resolver Component protocol
 ;;   your resolver components must implement this
 
-(defprotocol ResolverComponent
+(defprotocol Resolver
   "protocol for resolver components"
   (resolve-request [this context args value]))
 
@@ -59,6 +59,14 @@
      (add-resolver-component this)
      {}
      resolver-k-to-component-k)))
+
+
+
+
+
+
+
+
 
 
 

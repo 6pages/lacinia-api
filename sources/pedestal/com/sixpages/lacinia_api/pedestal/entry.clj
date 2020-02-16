@@ -3,7 +3,7 @@
   (:require [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.pedestal.server :as server]
             [com.sixpages.lacinia-api.pedestal.service :as service]
-            [com.sixpages.lacinia-api.resolver.components :as resolver-components]))
+            [com.sixpages.lacinia-api.resolver.components :as resolvers]))
 
 
 ;;
@@ -27,5 +27,5 @@
   (let [config (configuration/load-m)]
     (system/get-system
      config
-     (resolver-components/all config)
+     (resolvers/build config)
      (server-components config))))

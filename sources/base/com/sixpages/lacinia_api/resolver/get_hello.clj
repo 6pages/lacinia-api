@@ -16,14 +16,12 @@
   (stop [this]
     this)
 
-  resolver/ResolverComponent
+  resolver/Resolver
   (resolve-request
     [this context args value]
-    {:status 200
-     :headers {"Content-Type" "text/html"}
-     :body (get-in
-            this
-            [:config :body])}))
+    (get-in
+     this
+     [:config :body])))
 
 
 (defn new-component

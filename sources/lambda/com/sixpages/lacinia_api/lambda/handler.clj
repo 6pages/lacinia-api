@@ -4,11 +4,11 @@
    :name com.sixpages.lacinia-api.lambda.handler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
-  (:require [clojure.edn :as edn]
+  (:require [clojure.data.json :as json]
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.io :as io]
-            [com.sixpages.lacinia-api.resolver.components :as resolver-components]
+            [com.sixpages.lacinia-api.resolver.components :as resolvers]
             [com.sixpages.lacinia-api.schema :as schema]
             [com.sixpages.lacinia-api.system :as system]
             [com.walmartlabs.lacinia :as lacinia]))
@@ -92,7 +92,7 @@
   (let [config (configuration/load-m)
         sys-m (system/get-system
                config
-               (resolver-components/all config))
+               (resolvers/build config))
         request-m (io/read-m input-stream)]
 
     (println "Request received --------")
