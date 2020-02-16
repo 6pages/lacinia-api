@@ -8,9 +8,18 @@
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.io :as io]
+            [com.sixpages.lacinia-api.resolvers.get-hello :as get-hello]
             [com.sixpages.lacinia-api.schema :as schema]
             [com.sixpages.lacinia-api.system :as system]
             [com.walmartlabs.lacinia :as lacinia]))
+
+
+;;
+;; resolvers
+
+(defn resolver-components
+  [config]
+  {:get-hello (get-hello/new-component config)})
 
 
 ;;
@@ -19,9 +28,9 @@
 (defn content-type
   [request-m]
   (get-in
-             request-m
-             [:headers
-              :content-type]))
+   request-m
+   [:headers
+    :content-type]))
 
 (defn correct-content-type?
   [request-m]
@@ -40,10 +49,9 @@
 
 (defn execute
   [sys-m query-m]
-  (let [sc (schema/build
-            (:schema sys-m))]
+  (let [compiled-schema (get-in sys-m [:schema :compiled])]
     (lacinia/execute
-     sc
+     compiled-schema
      query-m
      {}    ;; variables
      nil   ;; context
@@ -90,7 +98,9 @@
    context]
 
   (let [config (configuration/load-m)
-        sys-m (system/get-system config)
+        sys-m (system/get-system
+               config
+               (resolver-components config))
         request-m (io/read-m input-stream)]
 
     (println "Request received --------")
@@ -99,8 +109,8 @@
 
     
     (let [result (resolve-query
-             sys-m
-             request-m)]
+                  sys-m
+                  request-m)]
 
       (println "Query resolved --------")
       (clojure.pprint/pprint result)

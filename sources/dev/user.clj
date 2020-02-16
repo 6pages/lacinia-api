@@ -25,7 +25,9 @@
 
 (defmethod new-system :lambda
   [config]
-  (system/new-system config))
+  (system/new-system
+   config
+   (lambda-handler/resolver-components config)))
 
 (defmethod new-system :pedestal
   [config]
