@@ -3,14 +3,7 @@
   (:require [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.pedestal.server :as server]
             [com.sixpages.lacinia-api.pedestal.service :as service]
-            [com.sixpages.lacinia-api.resolvers.get-hello :as get-hello]))
-
-;;
-;; resolvers
-
-(defn resolver-components
-  [config]
-  {:get-hello (get-hello/new-component config)})
+            [com.sixpages.lacinia-api.resolver.components :as resolver-components]))
 
 
 ;;
@@ -34,5 +27,5 @@
   (let [config (configuration/load-m)]
     (system/get-system
      config
-     (resolver-components config)
+     (resolver-components/all config)
      (server-components config))))

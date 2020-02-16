@@ -8,18 +8,10 @@
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.io :as io]
-            [com.sixpages.lacinia-api.resolvers.get-hello :as get-hello]
+            [com.sixpages.lacinia-api.resolver.components :as resolver-components]
             [com.sixpages.lacinia-api.schema :as schema]
             [com.sixpages.lacinia-api.system :as system]
             [com.walmartlabs.lacinia :as lacinia]))
-
-
-;;
-;; resolvers
-
-(defn resolver-components
-  [config]
-  {:get-hello (get-hello/new-component config)})
 
 
 ;;
@@ -100,7 +92,7 @@
   (let [config (configuration/load-m)
         sys-m (system/get-system
                config
-               (resolver-components config))
+               (resolver-components/all config))
         request-m (io/read-m input-stream)]
 
     (println "Request received --------")
