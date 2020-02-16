@@ -7,17 +7,14 @@
             [com.walmartlabs.lacinia.util :as util]))
 
 
-(def build
-  (memoize
-   (fn [component]
-     (-> (:schema-file-name component)
-         io/resource
-         slurp
-         edn/read-string
-         (util/attach-resolvers
-          (resolvers/build
-           (:resolvers component)))
-         lacinia-schema/compile))))
+(defn build
+  [file-name resolvers]
+  (-> file-name 
+      io/resource
+      slurp
+      edn/read-string
+      (util/attach-resolvers resolvers)
+      lacinia-schema/compile))
 
 
 
@@ -28,13 +25,17 @@
   component/Lifecycle
 
   (start [this]
-    (assoc
-     this
-     :schema-file-name
-     (str
-      (name
-       (get-in config [:schema :name]))
-      ".edn")))
+    (let [file-name (str
+                     (name
+                      (get-in config [:schema :name]))
+                     ".edn")
+          compiled (build
+                    file-name
+                    (:m resolvers))]
+      (assoc
+       this
+       :file-name file-name
+       :compiled compiled)))
 
   (stop [this]))
 
