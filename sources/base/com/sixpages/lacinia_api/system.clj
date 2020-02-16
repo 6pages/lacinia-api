@@ -1,6 +1,6 @@
 (ns com.sixpages.lacinia-api.system
   (:require [com.stuartsierra.component :as component]
-            [com.sixpages.lacinia-api.resolvers :as resolvers]
+            [com.sixpages.lacinia-api.resolver :as resolver]
             [com.sixpages.lacinia-api.schema :as schema]))
 
 
@@ -20,7 +20,7 @@
      (merge
       (component/system-map
        :resolvers (component/using
-                    (resolvers/new-component config resolver-deps-ks)
+                    (resolver/new-component config resolver-deps-ks)
                     resolver-deps-ks)
        :schema (component/using
                  (schema/new-component config)

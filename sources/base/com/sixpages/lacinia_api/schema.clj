@@ -2,7 +2,6 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
-            [com.sixpages.lacinia-api.resolvers :as resolvers]
             [com.walmartlabs.lacinia.schema :as lacinia-schema]
             [com.walmartlabs.lacinia.util :as util]))
 

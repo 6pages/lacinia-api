@@ -1,5 +1,5 @@
-(ns com.sixpages.lacinia-api.resolvers.get-hello
-  (:require [com.sixpages.lacinia-api.resolvers :as resolvers]
+(ns com.sixpages.lacinia-api.resolver.get-hello
+  (:require [com.sixpages.lacinia-api.resolver :as resolver]
             [com.stuartsierra.component :as component]))
 
 
@@ -16,7 +16,7 @@
   (stop [this]
     this)
 
-  resolvers/ResolverComponent
+  resolver/ResolverComponent
   (resolve-request
     [this context args value]
     {:status 200

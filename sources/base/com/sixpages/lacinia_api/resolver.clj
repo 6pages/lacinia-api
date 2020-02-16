@@ -1,4 +1,4 @@
-(ns com.sixpages.lacinia-api.resolvers
+(ns com.sixpages.lacinia-api.resolver
   (:require [com.stuartsierra.component :as component]))
 
 
@@ -64,7 +64,7 @@
 
 ;; Component
 
-(defrecord ResolversComponent
+(defrecord ResolverComponent
     [resolver-deps-ks resolver-k-to-component-k]
   component/Lifecycle
 
@@ -85,7 +85,7 @@
 
 (defn new-component
   [config resolver-deps-ks]
-  (map->ResolversComponent
+  (map->ResolverComponent
    (-> (:schema config)
        (select-keys [:resolver-k-to-component-k])
        (assoc
