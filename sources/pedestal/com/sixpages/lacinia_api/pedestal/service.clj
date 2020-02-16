@@ -12,30 +12,6 @@
 
 
 
-;; Resolvers (GraphQL endpoints)
-
-(defn get-hello
-  [context args value]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body "Hello."})
-
-
-;; Lacinia (GraphQL) Schema
-
-(def resolvers
-  {:get-hello get-hello})
-
-(def compiled-schema
-  "Match resources/schema.edn with resolvers"
-  (-> "schema.edn"
-      io/resource
-      slurp
-      edn/read-string
-      (util/attach-resolvers resolvers)
-      lacinia-schema/compile))
-
-
 
 ;; Interceptors - log request, response
 
@@ -49,16 +25,16 @@
    {:name :log-request-response-interceptor
     :enter (fn [context]
              (println {:msg "New request"
-                          :interceptor "log-request-response-interceptor"
-                          :request
-                          (select-keys
-                           (:request context)
-                           log-request-ks)})
+                       :interceptor "log-request-response-interceptor"
+                       :request
+                       (select-keys
+                        (:request context)
+                        log-request-ks)})
              context)
     :leave (fn [context]
              (println {:msg "New response"
-                          :interceptor "log-request-response-interceptor"
-                          :response (:response context)})
+                       :interceptor "log-request-response-interceptor"
+                       :response (:response context)})
              context)}))
 
 
@@ -154,43 +130,49 @@
   "builds Lacinia Pedestal service map"
   [config schema interceptors]
   (let [{:keys [io-pedestal-http lacinia-pedestal-service]} config]
-   (-> compiled-schema
+    (-> schema
 
-       ;; add lacinia configuration and interceptor chain
-       (lp/service-map
-        (assoc lacinia-pedestal-service
-               :interceptors interceptors))
+        ;; add lacinia configuration and interceptor chain
+        (lp/service-map
+         (assoc lacinia-pedestal-service
+                :interceptors interceptors))
 
-       ;; add pedestal configuration
-       (merge io-pedestal-http)
+        ;; add pedestal configuration
+        (merge io-pedestal-http)
 
-       ;; allow all origins (for now)
-       (assoc-in
-        [:io.pedestal.http/allowed-origins :allowed-origins]
-        (constantly true)))))
+        ;; allow all origins (for now)
+        (assoc-in
+         [:io.pedestal.http/allowed-origins :allowed-origins]
+         (constantly true)))))
 
 
 
-;; Service
+;;
+;; Component
 
 (defrecord Service
-    [config content-store]
+    [config schema]
   component/Lifecycle
 
   (start [this]
-    (let [{:keys [io-pedestal-http]} config]
+    
+    (let [env (get-in config [:io-pedestal-http :env])
+          compiled-schema (:compiled schema)
 
-      ;; create pedestal lacinia service map
-      (let [is (interceptors
-                (:env io-pedestal-http)
-                this
-                compiled-schema)
-            service-m (build-service-map
-                       config
-                       compiled-schema
-                       is)]
-        (assoc this
-               :service-map service-m))))
+          is (interceptors
+              env
+              this
+              compiled-schema)
+
+          ;; create pedestal lacinia service map
+          service-m (build-service-map
+                     config
+                     compiled-schema
+                     is)]
+      (assoc
+       this
+       :service-map
+       service-m)))
 
   (stop [this]))
 
