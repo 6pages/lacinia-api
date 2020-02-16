@@ -9,7 +9,7 @@
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
       <!-- rollover daily -->
-      <fileNamePattern>logs/api-lacinia-pedestal-component-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <fileNamePattern>logs/lacinia-api-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
       <timeBasedFileNamingAndTriggeringPolicy
           class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <!-- or whenever the file size reaches 64 MB -->
