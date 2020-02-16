@@ -7,5 +7,12 @@
   :aws_region  [:aws :region]}
 
  :schema
- {:name :schema}
+ {:name :schema
+
+;;  :resolver-k-to-component-k
+;;  {:get-hello :hello-component}
+
+  :resolvers
+  {:get-hello
+   {:body "Hello."}}}
  }
