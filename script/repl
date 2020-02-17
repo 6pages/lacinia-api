@@ -26,5 +26,5 @@ source .env
 #clj -A:dev -A:pedestal -A:lambda
 echo "---> lein repl :headless"
 lein \
-    with-profile +dev,+pedestal,+lambda \
+    with-profile dev,pedestal,lambda \
     repl :headless

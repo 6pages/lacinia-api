@@ -45,15 +45,19 @@
                              [com.amazonaws/aws-lambda-java-events "2.2.6"]
                              [com.amazonaws/aws-lambda-java-log4j2 "1.0.0"]]
               :source-paths ["sources/lambda"]
-              :resource-paths ["resources/configuration/lambda"]
-              :aot [com.sixpages.lacinia-api.lambda.handler]}
+              :resource-paths ["resources/configuration/lambda"]}
 
              :dev
              {:dependencies [
                              [org.clojure/tools.namespace "0.3.1"]
+                             [com.stuartsierra/component.repl "0.2.0"
+                              :exclusions [org.clojure/clojure
+                                           com.stuartsierra/component
+                                           org.clojure/tools.namespace]]
                              [clj-http "3.10.0"]]
               :source-paths ["sources/dev"]
               :resource-paths ["resources/logging/dev"]}
 
              :uberjar
-             {:resource-paths ["resources/logging/prod"]}})
+             {:resource-paths ["resources/logging/prod"]
+              :aot :all}})
