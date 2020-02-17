@@ -5,9 +5,7 @@
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.handler :as lambda-handler]
-            [com.sixpages.lacinia-api.pedestal.server :as pedestal-server]
-            [com.sixpages.lacinia-api.pedestal.service :as pedestal-service]
-            [com.sixpages.lacinia-api.resolver.components :as resolvers]
+            [com.sixpages.lacinia-api.pedestal.entry :as pedestal-entry]
             [com.sixpages.lacinia-api.system :as system]))
 
 
@@ -26,19 +24,13 @@
 
 (defmethod new-system :lambda
   [config]
-  (system/new-system
-   config
-   (resolvers/build config)))
+  (system/new-system config))
 
 (defmethod new-system :pedestal
   [config]
   (system/new-system
    config
-   {:service (pedestal-service/new-component config)
-    :server
-    (component/using
-      (pedestal-server/new-component config)
-      [:service])}))
+   (pedestal-entry/system-map config)))
 
 
 

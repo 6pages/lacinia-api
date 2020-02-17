@@ -1,4 +1,4 @@
-(ns com.sixpages.lacinia-api.resolver.get-hello
+(ns com.sixpages.api.hello-example.resolver.get-hello
   (:require [com.sixpages.lacinia-api.resolver :as resolver]
             [com.stuartsierra.component :as component]))
 

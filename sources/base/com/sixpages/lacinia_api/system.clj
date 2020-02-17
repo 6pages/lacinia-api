@@ -1,5 +1,6 @@
 (ns com.sixpages.lacinia-api.system
   (:require [com.stuartsierra.component :as component]
+            [com.sixpages.app :as app]
             [com.sixpages.lacinia-api.resolver :as resolver]
             [com.sixpages.lacinia-api.schema :as schema]))
 
@@ -9,24 +10,24 @@
 
 (defn new-system
   ([config]
-   (new-system config {}))
+   (new-system config (app/system-map config)))
 
-  ([config resolver-deps-m]
-   (new-system config resolver-deps-m {}))
+  ([config extra-deps-m]
+   (new-system
+    config
+    extra-deps-m
+    app/resolver-component-keys))
   
-  ([config resolver-deps-m extra-deps-m]
-   (let [resolver-deps-ks (into []
-                                (keys resolver-deps-m))]
-     (merge
-      (component/system-map
-       :resolvers (component/using
-                    (resolver/new-component config resolver-deps-ks)
-                    resolver-deps-ks)
-       :schema (component/using
-                 (schema/new-component config)
-                 [:resolvers]))
-      extra-deps-m
-      resolver-deps-m))))
+  ([config extra-deps-m resolver-deps-ks]
+   (merge
+    (component/system-map
+     :resolvers (component/using
+                  (resolver/new-component config resolver-deps-ks)
+                  resolver-deps-ks)
+     :schema (component/using
+               (schema/new-component config)
+               [:resolvers]))
+    extra-deps-m)))
 
 
 ;;
@@ -38,17 +39,21 @@
 
 ;;
 ;; get-system
-;;   -> you call this
+;;   if (= *system* nil); creates & starts a new system
+;;   else, returns already running system
 
 (defn get-system
 
   ([config]
-   (get-system config {}))
+   (get-system config (app/system-map config)))
 
-  ([config resolver-deps-m]
-   (get-system config resolver-deps-m {}))
+  ([config extra-deps-m]
+   (get-system
+    config
+    extra-deps-m
+    app/resolver-component-keys))
   
-  ([config resolver-deps-m extra-deps-m]
+  ([config extra-deps-m resolver-deps-m]
    (when-not *system*
      (alter-var-root
       #'*system*

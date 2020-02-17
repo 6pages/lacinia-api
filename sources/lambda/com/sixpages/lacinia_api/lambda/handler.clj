@@ -8,7 +8,6 @@
             [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.io :as io]
-            [com.sixpages.lacinia-api.resolver.components :as resolvers]
             [com.sixpages.lacinia-api.schema :as schema]
             [com.sixpages.lacinia-api.system :as system]
             [com.walmartlabs.lacinia :as lacinia]))
@@ -88,9 +87,7 @@
    context]
 
   (let [config (configuration/load-m)
-        sys-m (system/get-system
-               config
-               (resolvers/build config))
+        sys-m (system/get-system config)
         request-m (io/read-m input-stream)]
 
     (println "Request received --------")

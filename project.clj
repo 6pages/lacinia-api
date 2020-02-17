@@ -17,7 +17,7 @@
                  [org.slf4j/log4j-over-slf4j "1.7.26"]
                  ]
 
-  :source-paths ["sources/base"]
+  :source-paths ["sources/base" "sources/app"]
   :resource-paths ["resources/schemas"]
 
   :profiles {

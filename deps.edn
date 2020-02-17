@@ -17,7 +17,8 @@
         org.slf4j/log4j-over-slf4j             {:mvn/version "1.7.14"}}
 
  :paths ["resources/schemas"
-         "sources/base"]
+         "sources/base"
+         "sources/app"]
  
  :aliases
  {

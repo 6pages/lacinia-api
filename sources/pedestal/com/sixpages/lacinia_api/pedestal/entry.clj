@@ -1,9 +1,9 @@
 (ns com.sixpages.lacinia-api.pedestal.entry
   (:gen-class)
   (:require [com.stuartsierra.component :as component]
+            [com.sixpages.app :as app]
             [com.sixpages.lacinia-api.pedestal.server :as server]
-            [com.sixpages.lacinia-api.pedestal.service :as service]
-            [com.sixpages.lacinia-api.resolver.components :as resolvers]))
+            [com.sixpages.lacinia-api.pedestal.service :as service]))
 
 
 ;;
@@ -18,6 +18,13 @@
               (service/new-component config)
               [:schema])})
 
+(defn system-map
+  [config]
+  (merge
+   (app/system-map config)
+   (server-components config)))
+
+
 
 ;;
 ;; -main entry
@@ -27,5 +34,4 @@
   (let [config (configuration/load-m)]
     (system/get-system
      config
-     (resolvers/build config)
-     (server-components config))))
+     (system-map config))))
