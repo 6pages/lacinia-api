@@ -4,34 +4,12 @@
    :name com.sixpages.lacinia-api.lambda.handler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
-  (:require [com.stuartsierra.component :as component]
-            [com.sixpages.lacinia-api.configuration :as configuration]
+  (:require [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.io :as io]
-            [com.sixpages.lacinia-api.lambda.resolve :as resolve]
+            [com.sixpages.lacinia-api.lambda.request :as request]
+            [com.sixpages.lacinia-api.lambda.graphql :as graphql]
+            [com.sixpages.lacinia-api.lambda.response :as response]
             [com.sixpages.lacinia-api.system :as system]))
-
-
-;;
-;; validations
-
-(defn content-type
-  [request-m]
-  (get-in
-   request-m
-   [:headers
-    :content-type]))
-
-(defn correct-content-type?
-  [request-m]
-  (=
-   "application/graphql"
-   (content-type request-m)))
-
-(defn content-type-error-response
-  [request-m]
-  {:status 404
-   :body (str "request content-type needs to be 'application/graphql'."
-              " Was '" (content-type request-m) "'")})
 
 
 
@@ -51,13 +29,13 @@
         request-m (io/read-m input-stream)]
 
     (if (not
-         (correct-content-type? request-m))
+         (request/correct-content-type? request-m))
 
-      (content-type-error-response request-m)
+      (response/content-type-error request-m)
       
       (->> request-m
-           resolve/query
-           (resolve/execute sys-m)
-           io/build-ring-response
-           io/ring-to-api-gateway-response
+           graphql/query
+           (graphql/execute sys-m)
+           response/build-ring
+           response/ring-to-api-gateway
            (io/write-json output-stream)))))

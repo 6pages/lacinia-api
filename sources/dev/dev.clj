@@ -24,7 +24,9 @@
    [clj-http.client :as http-client]
    [clojure.data.json :as json]
    [com.sixpages.lacinia-api.configuration :as configuration]
-   [com.sixpages.lacinia-api.lambda.resolve :as lambda-resolve]
+   [com.sixpages.lacinia-api.lambda.request :as lambda-request]
+   [com.sixpages.lacinia-api.lambda.graphql :as lambda-graphql]
+   [com.sixpages.lacinia-api.lambda.response :as lambda-response]
    [com.sixpages.lacinia-api.pedestal.entry :as pedestal-entry]
    [com.sixpages.lacinia-api.system :as system]))
 
@@ -54,7 +56,7 @@
 
 
 ;;
-;; system management interfaces
+;; com.stuartsierra.component.repl setup
 
 (set-init
  (fn [_]
@@ -67,22 +69,27 @@
 
 
 
-;; Lambda tests
+;; helpers
 
-(defn lambda-request
+(defn build-request
   [body]
   {:headers
    {:content-type "application/graphql"}
    :body body})
 
+
+
+
+
+;; Lambda tests
+
 (defn lambda-hello-test
   [sys]
   (->> "{ hello }"
-       lambda-request
-       lambda-resolve/query
-       (lambda-resolve/execute sys)))
-
-
+       build-request
+       lambda-graphql/query
+       (lambda-graphql/execute sys)
+       lambda-response/build-ring))
 
 
 
@@ -103,15 +110,11 @@
       path (str "/" path))))
 
 
-;; curl localhost:8888/graphql -X POST -H "Content-Type: application/graphql" -d "{ content(slug: \"/brief-template\") }"
-
-(defn pedestal-request
-  []
-  {:headers {"Content-Type" "application/graphql"}
-   :body "{ hello }"})
+;; curl localhost:8888/graphql -X POST -H "Content-Type: application/graphql" -d "{ hello }"
 
 (defn request-content
   [env]
   (http-client/post
    (get-endpoint)
-   (pedestal-request)))
+   (build-request
+    "{ hello }")))

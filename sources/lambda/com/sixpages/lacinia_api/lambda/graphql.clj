@@ -1,4 +1,4 @@
-(ns com.sixpages.lacinia-api.lambda.resolve
+(ns com.sixpages.lacinia-api.lambda.graphql
   (:require [com.walmartlabs.lacinia :as lacinia]))
 
 (defn query
