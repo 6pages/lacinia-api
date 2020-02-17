@@ -46,6 +46,7 @@ cd $2
 echo "---> copy files"
 
 PATH_TO_COPY=(
+    .env
     README.md
     deps.edn
     project.clj
