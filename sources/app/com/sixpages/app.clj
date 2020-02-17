@@ -1,6 +1,6 @@
 (ns com.sixpages.app
   (:require [com.stuartsierra.component :as component]
-            [com.sixpages.app.hello-example.resolver.get-hello :as get-hello]))
+            [com.sixpages.api.hello-example.resolver.get-hello :as get-hello]))
 
 
 ;;

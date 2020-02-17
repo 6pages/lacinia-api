@@ -2,8 +2,10 @@
   (:gen-class)
   (:require [com.stuartsierra.component :as component]
             [com.sixpages.app :as app]
+            [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.pedestal.server :as server]
-            [com.sixpages.lacinia-api.pedestal.service :as service]))
+            [com.sixpages.lacinia-api.pedestal.service :as service]
+            [com.sixpages.lacinia-api.system :as system]))
 
 
 ;;
