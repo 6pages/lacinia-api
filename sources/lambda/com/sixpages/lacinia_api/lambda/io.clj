@@ -17,11 +17,11 @@
 (defn map-keys
   ([f]
    (fn [m]
-    (reduce-kv
-     (fn [acc k v]
-       (assoc acc (f k) v))
-     {}
-     m)))
+     (reduce-kv
+      (fn [acc k v]
+        (assoc acc (f k) v))
+      {}
+      m)))
   
   ([f m]
    ((map-keys f) m)))
@@ -48,9 +48,17 @@
 
 
 ;;
-;; api gateway response
+;; response
 
-(defn response-ring-to-api-gateway
+(defn build-ring-response
+  [response-m]
+  (let [headers {:content-type "application/json"}
+        body (json/write-str response-m)]
+    {:status  200
+     :headers headers
+     :body    body}))
+
+(defn ring-to-api-gateway-response
   [r]
   (-> r
       (assoc :isBase64Encoded false)

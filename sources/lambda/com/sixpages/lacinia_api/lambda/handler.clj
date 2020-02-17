@@ -4,13 +4,11 @@
    :name com.sixpages.lacinia-api.lambda.handler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
-  (:require [clojure.data.json :as json]
-            [com.stuartsierra.component :as component]
+  (:require [com.stuartsierra.component :as component]
             [com.sixpages.lacinia-api.configuration :as configuration]
             [com.sixpages.lacinia-api.lambda.io :as io]
-            [com.sixpages.lacinia-api.schema :as schema]
-            [com.sixpages.lacinia-api.system :as system]
-            [com.walmartlabs.lacinia :as lacinia]))
+            [com.sixpages.lacinia-api.lambda.resolve :as resolve]
+            [com.sixpages.lacinia-api.system :as system]))
 
 
 ;;
@@ -29,48 +27,11 @@
    "application/graphql"
    (content-type request-m)))
 
-
-
-;;
-;; lacinia helpers
-
-(defn query
+(defn content-type-error-response
   [request-m]
-  (:body request-m))
-
-(defn execute
-  [sys-m query-m]
-  (let [compiled-schema (get-in sys-m [:schema :compiled])]
-    (lacinia/execute
-     compiled-schema
-     query-m
-     {}    ;; variables
-     nil   ;; context
-     )))
-
-
-;;
-;; response
-
-(defn resolve-query
-  [sys-m request-m]
-  (if (not
-       (correct-content-type? request-m))
-
-    {:status 404
-     :body (str "request content-type needs to be 'application/graphql'."
-                " Was '" (content-type request-m) "'")}
-    
-    (let [q (query request-m)]
-      (execute sys-m q))))
-
-(defn build-response
-  [query-results]
-  (let [headers {:content-type "application/json"}
-        body (json/write-str query-results)]
-    {:status 200
-     :headers headers
-     :body body}))
+  {:status 404
+   :body (str "request content-type needs to be 'application/graphql'."
+              " Was '" (content-type request-m) "'")})
 
 
 
@@ -89,20 +50,14 @@
         sys-m (system/get-system config)
         request-m (io/read-m input-stream)]
 
-    (println "Request received --------")
-    (clojure.pprint/pprint request-m)
-    (println "-------------------------")
+    (if (not
+         (correct-content-type? request-m))
 
-    
-    (let [result (resolve-query
-                  sys-m
-                  request-m)]
-
-      (println "Query resolved --------")
-      (clojure.pprint/pprint result)
-      (println "-------------------------")
+      (content-type-error-response request-m)
       
-      (->> result
-           build-response
-           io/response-ring-to-api-gateway
+      (->> request-m
+           resolve/query
+           (resolve/execute sys-m)
+           io/build-ring-response
+           io/ring-to-api-gateway-response
            (io/write-json output-stream)))))
