@@ -21,9 +21,12 @@ echo "---> lein uberjar"
 
 ## https://github.com/tonsky/uberdeps doesn't yet have support for AOT compliation
 ##  we can switch back to tools.deps (below) once AOT is possible
-#clj -A:uberjar
+#clj -A:lambda -A:uberjar
 
-lein with-profile +lambda,+uberjar uberjar >/dev/null
+lein \
+    with-profile lambda,uberjar \
+    uberjar \
+    >/dev/null
 
 cd $CURRENT_PATH
 
