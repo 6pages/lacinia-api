@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+echo "-- com.sixpages.lacinia-api --"
+echo "---  scaffold new project  ---"
+
+
+
+# check args
+
+function PRINT_USAGE {
+    echo ""
+    echo "Usage: new-project [destination/path] [name]"
+    echo "   destination/path (required): path (relative to current working directory) for the new project to be setup"
+    echo "   name             (required): name of the project"
+    echo ""
+}
+
+
+if [[ ! $1 || ! $2 || $1 == "--usage" || $1 == "-u" || $1 == "usage" ]]
+then
+    PRINT_USAGE
+    exit 1
+fi
+
+
+
+
+
+# load paths
+source $( cd "$(dirname "$0")" ; pwd -P )/paths
+
+
+
+echo "---> clean targets"
+cd $BASE_PATH
+lein clean
+
+
+echo "---> creating ${1}/${2}"
+cd $CURRENT_PATH
+cd $1
+mkdir $2
+cd $2
+
+
+echo "---> copy files"
+
+PATH_TO_COPY=(
+    README.md
+    deps.edn
+    project.clj
+    resources
+    script
+    sources
+)
+for p in "${PATH_TO_COPY[@]}"
+do
+    cp -rf ${BASE_PATH}/${p} .
+done
+
+# special for terraform
+cp -rf ${BASE_PATH}/terraform/modules/lacinia-api terraform
+
+
+echo "--- fin. ---"

@@ -12,9 +12,7 @@ source $SCRIPT_PATH/configuration
 
 
 echo "---> clean"
-
 cd $BASE_PATH
-
 lein clean
 
 
