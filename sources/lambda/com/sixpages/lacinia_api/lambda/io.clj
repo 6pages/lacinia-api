@@ -3,6 +3,9 @@
             [clojure.java.io :as io]
             [clojure.string :as s]))
 
+;;
+;; helpers
+
 (defn key->keyword
   [key-string]
   (-> key-string
@@ -10,6 +13,23 @@
       (s/replace #"([A-Z]+)([A-Z])" "$1-$2")
       (s/lower-case)
       (keyword)))
+
+(defn map-keys
+  ([f]
+   (fn [m]
+    (reduce-kv
+     (fn [acc k v]
+       (assoc acc (f k) v))
+     {}
+     m)))
+  
+  ([f m]
+   ((map-keys f) m)))
+
+
+
+;;
+;; stream reader & writer
 
 (defn read-m
   [input-stream]
@@ -26,17 +46,18 @@
     (.flush w)))
 
 
+
+;;
+;; api gateway response
+
 (defn response-ring-to-api-gateway
   [r]
   (-> r
+      (assoc :isBase64Encoded false)
       (assoc
        :statusCode
        (:status r))
       (dissoc :status)
       (update
        :headers
-       #(reduce-kv
-         (fn [acc k v] (assoc acc (name k) v))
-         {}
-         %))
-      (assoc :isBase64Encoded false)))
+       (map-keys name))))

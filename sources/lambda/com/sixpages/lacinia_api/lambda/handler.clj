@@ -67,8 +67,7 @@
 (defn build-response
   [query-results]
   (let [headers {:content-type "application/json"}
-        body (json/write-str
-              query-results)]
+        body (json/write-str query-results)]
     {:status 200
      :headers headers
      :body body}))
@@ -103,7 +102,7 @@
       (clojure.pprint/pprint result)
       (println "-------------------------")
       
-      (io/write-json
-       output-stream
-       (io/response-ring-to-api-gateway
-        (build-response result))))))
+      (->> result
+           build-response
+           io/response-ring-to-api-gateway
+           (io/write-json output-stream)))))
