@@ -25,8 +25,7 @@ echo "---> lein uberjar"
 
 lein \
     with-profile lambda,uberjar \
-    uberjar \
-    >/dev/null
+    uberjar >/dev/null
 
 cd $CURRENT_PATH
 
