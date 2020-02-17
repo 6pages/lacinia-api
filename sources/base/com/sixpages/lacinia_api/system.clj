@@ -61,6 +61,6 @@
        (component/start
         (new-system
          config
-         resolver-deps-m
-         extra-deps-m)))))
+         extra-deps-m
+         resolver-deps-m)))))
    *system*))
