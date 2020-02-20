@@ -5,10 +5,10 @@
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
   
   (:require [com.sixpages.lacinia-api.configuration :as configuration]
-            [com.sixpages.lacinia-api.lambda.io :as io]
-            [com.sixpages.lacinia-api.lambda.request :as request]
-            [com.sixpages.lacinia-api.lambda.graphql :as graphql]
-            [com.sixpages.lacinia-api.lambda.response :as response]
+            [com.sixpages.lacinia-api.graphql :as graphql]
+            [com.sixpages.lacinia-api.io.request :as request]
+            [com.sixpages.lacinia-api.io.response :as response]
+            [com.sixpages.lacinia-api.lambda.io :as io]            
             [com.sixpages.lacinia-api.system :as system]))
 
 

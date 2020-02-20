@@ -17,22 +17,25 @@
    [clojure.set :as set]
    [clojure.string :as string]
    [clojure.test :as test]
-   [clojure.tools.namespace.repl :refer [refresh refresh-all clear]]
+   [clojure.tools.namespace.repl :refer [refresh refresh-all clear set-refresh-dirs]]
    [com.stuartsierra.component :as component]
    [com.stuartsierra.component.repl :refer [reset set-init start stop system]]
 
    [clj-http.client :as http-client]
    [clojure.data.json :as json]
+   
    [com.sixpages.lacinia-api.configuration :as configuration]
-   [com.sixpages.lacinia-api.lambda.request :as lambda-request]
-   [com.sixpages.lacinia-api.lambda.graphql :as lambda-graphql]
-   [com.sixpages.lacinia-api.lambda.response :as lambda-response]
-   [com.sixpages.lacinia-api.pedestal.entry :as pedestal-entry]
-   [com.sixpages.lacinia-api.system :as system]))
+   [com.sixpages.lacinia-api.graphql :as graphql]
+   [com.sixpages.lacinia-api.io.response :as response]
+   [com.sixpages.lacinia-api.system :as system]
+   #_[com.sixpages.lacinia-api.pedestal.system :as psystem]))
 
 
 ;; Do not try to load source code from 'resources' directory
-(clojure.tools.namespace.repl/set-refresh-dirs "sources")
+(set-refresh-dirs
+ "sources/base"
+ "sources/app"
+ "sources/dev")
 
 
 
@@ -46,7 +49,7 @@
   [config]
   (system/new-system
    config
-   (pedestal-entry/system-map config)))
+   #_(pedestal-entry/system-map config)))
 
 (defmethod new-system :default
   [config]
@@ -87,9 +90,10 @@
   [sys]
   (->> "{ hello }"
        build-request
-       lambda-graphql/query
-       (lambda-graphql/execute sys)
-       lambda-response/build-ring))
+       graphql/query
+       (graphql/execute sys)
+       response/build-ring
+       response/ring-to-api-gateway))
 
 
 

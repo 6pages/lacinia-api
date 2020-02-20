@@ -1,6 +1,6 @@
-(ns com.sixpages.lacinia-api.lambda.response
+(ns com.sixpages.lacinia-api.io.response
   (:require [clojure.data.json :as json]
-            [com.sixpages.lacinia-api.lambda.request :as request]))
+            [com.sixpages.lacinia-api.io.request :as request]))
 
 
 ;;
@@ -45,10 +45,12 @@
   [r]
   (-> r
       (assoc :isBase64Encoded false)
+
       (assoc
        :statusCode
        (:status r))
       (dissoc :status)
+
       (update
        :headers
        (map-keys name))))

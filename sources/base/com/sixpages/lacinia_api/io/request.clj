@@ -1,8 +1,8 @@
-(ns com.sixpages.lacinia-api.lambda.request)
+(ns com.sixpages.lacinia-api.io.request)
 
 
 ;;
-;; validations
+;; content-type
 
 (defn content-type
   [request-m]

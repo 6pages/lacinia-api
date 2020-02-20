@@ -1,0 +1,18 @@
+{
+ :system-type :dev
+ 
+  :environment-variable-to-configuration-path
+ {:environment [:environment]
+  :aws_profile [:aws :profile]
+  :aws_region  [:aws :region]}
+
+ :schema
+ {:name :schema
+
+;;  :resolver-k-to-component-k
+;;  {:get-hello :hello-component}
+
+  :resolvers
+  {:get-hello
+   {:body "Hello."}}}
+ }
