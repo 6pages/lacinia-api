@@ -56,7 +56,7 @@
                                            org.clojure/tools.namespace]]
                              [clj-http "3.10.0"]]
               :source-paths ["sources/dev"]
-              :resource-paths ["resources/logging/dev"]}
+              :resource-paths ["resources/configuration/dev" "resources/logging/dev"]}
 
              :uberjar
              {:resource-paths ["resources/logging/prod"]
