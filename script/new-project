@@ -49,6 +49,7 @@ echo "---> copy files"
 
 PATH_TO_COPY=(
     .env
+    .gitignore
     README.md
     deps.edn
     project.clj
