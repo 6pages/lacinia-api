@@ -1,9 +1,4 @@
 
-locals {
-  target       = "${var.source_path}/${var.target_path}"
-}
-
-
 #
 # GraphQL API
 
