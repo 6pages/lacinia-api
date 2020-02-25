@@ -28,11 +28,19 @@ variable "memory_size" {
   default = 1024
 }
 
-variable "source_path" {
+variable "target_path" {
   # NOTE: relative to state/main.tf (not this file)
-  default = "../../.."
+  default = "../../../target"
 }
 
-variable "target_path" {
-  default = "target/lacinia-api-0.0.1-SNAPSHOT-standalone.jar"
+variable "target_name" {
+  default = "lacinia-api-0.0.1-SNAPSHOT-standalone.jar"
+}
+
+variable "s3_bucket_key" {
+  default = "lacinia-api"
+}
+
+variable "artifact_version" {
+  default = "0.0.1"
 }
