@@ -155,7 +155,6 @@
   component/Lifecycle
 
   (start [this]
-    
     (let [env (get-in config [:io-pedestal-http :env])
           compiled-schema (:compiled schema)
 
@@ -174,7 +173,8 @@
        :service-map
        service-m)))
 
-  (stop [this]))
+  (stop [this]
+    this))
 
 
 (defn new-component

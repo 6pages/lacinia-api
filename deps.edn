@@ -22,8 +22,26 @@
  
  :aliases
  {
+  :dev
+  {:extra-paths ["sources/dev"
+                 "resources/configuration/dev"
+                 "resources/logging/dev"]
+   :extra-deps
+   {org.clojure/tools.namespace      {:mvn/version "0.3.1"}
+    com.stuartsierra/component.repl  {:mvn/version "0.2.0"
+                                      :exclusions [org.clojure/clojure
+                                                   com.stuartsierra/component
+                                                   org.clojure/tools.namespace]}
+    clj-http                         {:mvn/version "3.10.0"}}}
+
+  :cider-clj
+  {:extra-deps {cider/cider-nrepl                  {:mvn/version "0.22.1"}}
+   :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
+  
   :pedestal
-  {:extra-deps
+  {:extra-paths ["resources/configuration/pedestal"
+                 "sources/pedestal"]
+   :extra-deps
    {io.pedestal/pedestal.service           {:mvn/version "0.5.7"
                                             :exclusions  [org.clojure/tools.analyzer.jvm
                                                           org.clojure/core.async]}
@@ -37,31 +55,20 @@
     com.walmartlabs/lacinia-pedestal       {:mvn/version "0.13.0"
                                             :exclusions [io.pedestal/pedestal.service
                                                          io.pedestal/pedestal.jetty
-                                                         com.walmartlabs/lacinia]}}
-   :extra-paths ["resources/configuration/pedestal"
-                 "sources/pedestal"]}
+                                                         com.walmartlabs/lacinia]}}}
 
-  :lambda
-  {:extra-deps
+  :pedestal-standalone
+  {:extra-paths ["sources/standalone/pedestal"
+                 "resources/configuration/pedestal"]}
+
+  
+  :lambda {}
+  
+  :lambda-standalone
+  {:extra-paths ["sources/standalone/pedestal"
+                 "resources/configuration/pedestal"]
+   :extra-deps
    {com.amazonaws/aws-lambda-java-core {:mvn/version "1.2.0"}
     com.amazonaws/aws-lambda-java-events {:mvn/version "2.2.6"}
     com.amazonaws/aws-lambda-java-log4j2 {:mvn/version "1.0.0"}}
-   :extra-paths ["resources/configuration/lambda"
-                 "sources/lambda"]
-   :aot [com.sixpages.api-lacinia-pedestal-component.lambda.handler]}
-
-
-  :dev
-  {:extra-deps
-   {org.clojure/tools.namespace      {:mvn/version "0.3.1"}
-    com.stuartsierra/component.repl  {:mvn/version "0.2.0"
-                                      :exclusions [org.clojure/clojure
-                                                   com.stuartsierra/component
-                                                   org.clojure/tools.namespace]}
-    clj-http                         {:mvn/version "3.10.0"}}
-   :extra-paths ["sources/dev"
-                 "resources/logging/dev"]}
-
-  :cider-clj
-  {:extra-deps {cider/cider-nrepl                  {:mvn/version "0.22.1"}}
-   :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}}}
+   :aot [com.sixpages.api-lacinia.lambda.handler]}}}

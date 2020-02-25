@@ -2,6 +2,30 @@
 
 echo "-- com.sixpages.lacinia-api --"
 
+
+function PRINT_USAGE {
+    echo ""
+    echo "Usage: sh deploy <destination>"
+    echo "   destination (required): [repo, direct]"
+    echo ""
+}
+
+
+if [[ $1 == "--usage" || $1 == "-u" || $1 == "usage" ]]
+then
+    PRINT_USAGE
+    exit 1
+fi
+
+if [[ $1 != "repo" && $1 != "direct" ]]
+then
+    PRINT_USAGE
+    exit 1
+fi
+
+
+
+
 # load paths
 source $( cd "$(dirname "$0")" ; pwd -P )/paths
 
@@ -13,13 +37,23 @@ echo "---> deploy"
 
 cd $BASE_PATH
 
-aws lambda \
-    update-function-code \
-    --profile $AWS_PROFILE \
-    --region $AWS_REGION \
-    --function-name $AWS_LAMBDA_FN_NAME \
-    --zip-file fileb://${TARGET_PATH}/${TARGET_NAME} \
-    --publish
+if [[ $1 == "direct" ]]
+then
+    aws lambda \
+        update-function-code \
+        --profile $AWS_PROFILE \
+        --region $AWS_REGION \
+        --function-name $AWS_LAMBDA_FN_NAME \
+        --zip-file fileb://${TARGET_PATH}/${TARGET_NAME} \
+        --publish
+
+else
+    aws s3 \
+        --profile $AWS_PROFILE \
+        cp \
+        ${TARGET_PATH}/${TARGET_NAME} \
+        s3://${AWS_BUILD_ARTIFACT_BUCKET}/${AWS_BUILD_ARTIFACT_KEY}/${TARGET_NAME}
+fi
 
 cd $CURRENT_PATH
 

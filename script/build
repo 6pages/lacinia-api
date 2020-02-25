@@ -24,8 +24,8 @@ echo "---> lein uberjar"
 #clj -A:lambda -A:uberjar
 
 lein \
-    with-profile lambda,uberjar \
-    uberjar >/dev/null
+    with-profile lambda,lambda-standalone,uberjar \
+    uberjar
 
 cd $CURRENT_PATH
 

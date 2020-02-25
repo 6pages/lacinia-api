@@ -6,6 +6,8 @@
 
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/core.async "0.4.500"]
+
+                 ;; important libs
                  [com.stuartsierra/component "0.4.0"]
                  [com.walmartlabs/lacinia "0.36.0"]
 
@@ -17,13 +19,25 @@
                  [org.slf4j/log4j-over-slf4j "1.7.26"]
                  ]
 
-  :source-paths ["sources/base" "sources/app"]
+
+  :source-paths ["sources/app" "sources/base"]
   :resource-paths ["resources/schemas"]
 
   :profiles {
+             :dev
+             {:source-paths ["sources/dev"]
+              :resource-paths ["resources/configuration/dev" "resources/logging/dev"]
+              :dependencies [[org.clojure/tools.namespace "0.3.1"]
+                             [com.stuartsierra/component.repl "0.2.0"
+                              :exclusions [org.clojure/clojure
+                                           com.stuartsierra/component
+                                           org.clojure/tools.namespace]]
+                             [clj-http "3.10.0"]]}
+
+
              :pedestal
-             {:dependencies [
-                             [io.pedestal/pedestal.service "0.5.7"
+             {:source-paths ["sources/pedestal"]
+              :dependencies [[io.pedestal/pedestal.service "0.5.7"
                               :exclusions  [org.clojure/tools.analyzer.jvm
                                             org.clojure/core.async]]
                              [io.pedestal/pedestal.jetty "0.5.7"
@@ -35,28 +49,24 @@
                              [com.walmartlabs/lacinia-pedestal "0.13.0"
                               :exclusions [io.pedestal/pedestal.service
                                            io.pedestal/pedestal.jetty
-                                           com.walmartlabs/lacinia]]]
-              :source-paths ["sources/pedestal"]
+                                           com.walmartlabs/lacinia]]]}
+
+             :pedestal-standalone
+             {:source-paths ["sources/standalone/pedestal"]
               :resource-paths ["resources/configuration/pedestal"]}
              
-             :lambda
-             {:dependencies [
-                             [com.amazonaws/aws-lambda-java-core "1.2.0"]
-                             [com.amazonaws/aws-lambda-java-events "2.2.6"]
-                             [com.amazonaws/aws-lambda-java-log4j2 "1.0.0"]]
-              :source-paths ["sources/lambda"]
-              :resource-paths ["resources/configuration/lambda"]}
+             
+             
+             :lambda {}
 
-             :dev
-             {:dependencies [
-                             [org.clojure/tools.namespace "0.3.1"]
-                             [com.stuartsierra/component.repl "0.2.0"
-                              :exclusions [org.clojure/clojure
-                                           com.stuartsierra/component
-                                           org.clojure/tools.namespace]]
-                             [clj-http "3.10.0"]]
-              :source-paths ["sources/dev"]
-              :resource-paths ["resources/configuration/dev" "resources/logging/dev"]}
+             :lambda-standalone
+             {:source-paths ["sources/standalone/lambda"]
+              :resource-paths ["resources/configuration/lambda"]
+              :dependencies [[com.amazonaws/aws-lambda-java-core "1.2.0"]
+                             [com.amazonaws/aws-lambda-java-events "2.2.6"]
+                             [com.amazonaws/aws-lambda-java-log4j2 "1.0.0"]]}
+
+             
 
              :uberjar
              {:resource-paths ["resources/logging/prod"]

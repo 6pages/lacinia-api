@@ -1,4 +1,4 @@
-(ns com.sixpages.lacinia-api.configuration
+(ns com.sixpages.configuration
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]))
 

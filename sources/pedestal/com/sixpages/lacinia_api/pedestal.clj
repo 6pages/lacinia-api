@@ -1,6 +1,5 @@
-(ns com.sixpages.lacinia-api.pedestal.system
+(ns com.sixpages.lacinia-api.pedestal
   (:require [com.stuartsierra.component :as component]
-            [com.sixpages.app :as app]
             [com.sixpages.lacinia-api.pedestal.server :as server]
             [com.sixpages.lacinia-api.pedestal.service :as service]))
 
@@ -12,9 +11,3 @@
    :service (component/using
               (service/new-component config)
               [:schema])})
-
-(defn system-map
-  [config]
-  (merge
-   (app/system-map config)
-   (server-components config)))

@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
 
-export AWS_PROFILE=6Pages
+export ENVIRONMENT=dev
+export VERSION=0.0.1
+
+
+export AWS_PROFILE=none
 export AWS_REGION=us-east-1
 
-
-export AWS_LAMBDA_FN_NAME=graphql-api-dev
+export AWS_LAMBDA_FN_NAME=lacinia-api-${ENVIRONMENT}
 export AWS_LAMBDA_HANDLER="com.sixpages.lacinia-api.lambda.handler"
 
+export AWS_BUILD_ARTIFACT_BUCKET=build-artifacts-${ENVIRONMENT}
+export AWS_BUILD_ARTIFACT_KEY=lacinia-api/${VERSION}
+
 export TARGET_PATH=target
-export TARGET_NAME=lacinia-api-0.0.1-SNAPSHOT-standalone.jar
+export TARGET_NAME=lacinia-api-${VERSION}-SNAPSHOT-standalone.jar

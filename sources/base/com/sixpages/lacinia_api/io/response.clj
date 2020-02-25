@@ -1,22 +1,9 @@
 (ns com.sixpages.lacinia-api.io.response
-  (:require [clojure.data.json :as json]
-            [com.sixpages.lacinia-api.io.request :as request]))
+  (:require [clojure.string :as s]
+            [clojure.data.json :as json]
+            [com.sixpages.lacinia-api.io.request :as request]
+            [com.sixpages.lang :refer [map-keys]]))
 
-
-;;
-;; helpers
-
-(defn map-keys
-  ([f]
-   (fn [m]
-     (reduce-kv
-      (fn [acc k v]
-        (assoc acc (f k) v))
-      {}
-      m)))
-  
-  ([f m]
-   ((map-keys f) m)))
 
 
 ;;

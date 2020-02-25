@@ -36,7 +36,11 @@
        :file-name file-name
        :compiled compiled)))
 
-  (stop [this]))
+  (stop [this]
+    (dissoc
+     this
+     :file-name
+     :compiled)))
 
 
 (defn new-component
