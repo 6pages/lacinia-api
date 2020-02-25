@@ -23,6 +23,8 @@ then
 fi
 
 
+DESTINATION_PATH=$1
+NAME=$2
 
 
 
@@ -36,11 +38,11 @@ cd $BASE_PATH
 lein clean
 
 
-echo "---> creating ${1}/${2}"
+echo "---> creating ${DESTINATION_PATH}/${NAME}"
 cd $CURRENT_PATH
-cd $1
-mkdir $2
-cd $2
+cd ${DESTINATION_PATH}
+mkdir ${NAME}
+cd ${NAME}
 
 
 echo "---> copy files"
